@@ -17,7 +17,7 @@ interface NavbarProps {
   setMenuOpen: Dispatch<SetStateAction<boolean>>;
 }
 
-export default function Navbar({ menuOpen, setMenuOpen }: NavbarProps): JSX.Element {
+export default function Navbar({ menuOpen, setMenuOpen }: NavbarProps) {
   const pathname: string = usePathname();
 
   const navLinks: NavLink[] = [

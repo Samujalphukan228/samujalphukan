@@ -5,7 +5,7 @@ interface FooterLink {
   href: string;
 }
 
-export default function Footer(): JSX.Element {
+export default function Footer() {
   const year: number = 2026;
 
   const footerLinks: FooterLink[] = [

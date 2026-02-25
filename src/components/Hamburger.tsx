@@ -2,7 +2,11 @@
 
 import "./hamburger.css";
 
-export default function Hamburger({ isOpen }) {
+interface HamburgerProps {
+  isOpen: boolean;
+}
+
+export default function Hamburger({ isOpen }: HamburgerProps) {
   return (
     <div className={`hamburger ${isOpen ? "open" : ""}`}>
       <span className="bar top"></span>

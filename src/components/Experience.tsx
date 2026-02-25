@@ -11,7 +11,7 @@ interface ExperienceItem {
   current: boolean;
 }
 
-export default function Experience(): JSX.Element {
+export default function Experience() {
   const experience: ExperienceItem[] = [
     {
       company: "Nxxupp",

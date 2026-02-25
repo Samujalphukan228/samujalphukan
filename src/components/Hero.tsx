@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 
-export default function Hero(): JSX.Element {
+export default function Hero() {
   const lineRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {

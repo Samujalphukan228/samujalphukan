@@ -40,7 +40,7 @@ const socialLinks: SocialLink[] = [
   },
 ];
 
-export default function MobileMenu({ isOpen, onClose, navLinks, isActive }: MobileMenuProps): JSX.Element {
+export default function MobileMenu({ isOpen, onClose, navLinks, isActive }: MobileMenuProps) {
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
