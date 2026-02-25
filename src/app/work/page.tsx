@@ -28,7 +28,7 @@ const projects: Project[] = [
   },
 ];
 
-export default function Work(): JSX.Element {
+export default function Work() {
   return (
     <>
       <style>{`

@@ -11,7 +11,7 @@ const socials: Social[] = [
   { label: "Instagram", href: "https://www.instagram.com/samujal_phukan/" },
 ];
 
-export default function Contact(): JSX.Element {
+export default function Contact() {
   return (
     <>
       <style>{`
@@ -50,7 +50,7 @@ export default function Contact(): JSX.Element {
               className="text-4xl md:text-5xl text-[#111] leading-tight mb-6"
               style={{ fontFamily: "'DM Serif Display', serif" }}
             >
-              Let's build
+               Let's build
               <br />
               <span style={{ fontStyle: "italic" }}>something.</span>
             </h2>

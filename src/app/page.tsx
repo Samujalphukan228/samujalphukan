@@ -6,7 +6,7 @@ import Hero from "@/components/Hero";
 import Experience from "@/components/Experience";
 import Footer from "@/components/Footer";
 
-export default function Page(): JSX.Element {
+export default function Page(){
 
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
 
