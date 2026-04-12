@@ -25,10 +25,10 @@ export default function Experience() {
       current: true,
     },
     {
-      company: "MERN Stack & Backend",
+      company: "MERN & Backend",
       role: "Backend Engineer",
       period: "2024 — 2025",
-      duration: "2 yrs",
+      duration: "1 yr",
       type: "Full-Stack · Backend",
       description:
         "Built production backend systems with Node.js and Express. Developed full-stack applications using the MERN stack and Next.js. Implemented Elasticsearch for search and Redis for caching and session management.",
@@ -40,168 +40,260 @@ export default function Experience() {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,300;1,300&display=swap');
 
-        .exp-row {
+        .exp-item {
           opacity: 0;
-          transform: translateY(16px);
-          animation: expIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+          transform: translateY(14px);
+          animation: expUp 0.65s cubic-bezier(0.16,1,0.3,1) forwards;
+        }
+        @keyframes expUp { to { opacity:1; transform:translateY(0); } }
+
+        .exp-tag { transition: background .18s, color .18s, border-color .18s; }
+        .exp-tag:hover {
+          background: #1d1d1f !important;
+          color: #fff !important;
+          border-color: transparent !important;
         }
 
-        @keyframes expIn {
-          to { opacity: 1; transform: translateY(0); }
-        }
-
-        .tag-pill {
-          transition: background 0.15s, color 0.15s;
-        }
-
-        .tag-pill:hover {
-          background: #111;
-          color: #f8f8f8;
-          border-color: #111;
+        @media (max-width: 640px) {
+          .exp-grid { grid-template-columns: 1fr !important; }
         }
       `}</style>
 
-      <section className="py-20 w-full">
+      <section style={{ padding: "80px 0 96px" }}>
 
-        {/* Section header */}
-        <div className="flex items-end justify-between mb-14 border-b border-[#e8e8e8] pb-6">
-          <p
-            className="text-[11px] text-[#999] uppercase tracking-[0.25em]"
-            style={{ fontFamily: "'DM Mono', monospace" }}
-          >
-            Experience
-          </p>
-          <p
-            className="text-[10px] text-[#bbb] uppercase tracking-[0.15em]"
-            style={{ fontFamily: "'DM Mono', monospace" }}
-          >
-            As of Feb 2026
-          </p>
+        {/* ── Section label ── */}
+        <div
+          className="exp-item"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            marginBottom: 64,
+            animationDelay: "0s",
+          }}
+        >
+          <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+            <span style={{
+              fontFamily: "'SF Mono','Fira Code',monospace",
+              fontSize: 9, letterSpacing: "0.18em",
+              textTransform: "uppercase", color: "#aeaeb2",
+            }}>
+              02
+            </span>
+            <span style={{
+              width: 32, height: "0.5px", background: "rgba(0,0,0,0.12)",
+            }} />
+            <span style={{
+              fontFamily: "'SF Mono','Fira Code',monospace",
+              fontSize: 9, letterSpacing: "0.18em",
+              textTransform: "uppercase", color: "#aeaeb2",
+            }}>
+              Experience
+            </span>
+          </div>
+          <span style={{
+            fontFamily: "'SF Mono','Fira Code',monospace",
+            fontSize: 9, letterSpacing: "0.14em",
+            textTransform: "uppercase", color: "#c7c7cc",
+          }}>
+            2024 — Present
+          </span>
         </div>
 
-        <div className="space-y-0">
-          {experience.map((item: ExperienceItem, index: number) => (
+        {/* ── Entries ── */}
+        <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
+          {experience.map((item, index) => (
             <div
               key={index}
-              className="exp-row"
-              style={{ animationDelay: `${index * 0.15}s` }}
+              className="exp-item"
+              style={{ animationDelay: `${0.1 + index * 0.14}s` }}
             >
-              <div className="grid grid-cols-1 md:grid-cols-[220px_1fr] gap-6 md:gap-16 py-12">
+              {/* Top divider */}
+              <div style={{ height: "0.5px", background: "rgba(0,0,0,0.07)" }} />
 
-                {/* Left */}
-                <div className="flex flex-col gap-2 md:pt-1">
-                  <div className="flex items-center gap-2">
-                    <span
-                      className="text-[11px] text-[#888] tabular-nums"
-                      style={{ fontFamily: "'DM Mono', monospace" }}
-                    >
+              <div
+                className="exp-grid"
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "200px 1fr",
+                  gap: 64,
+                  padding: "52px 0",
+                  alignItems: "start",
+                }}
+              >
+                {/* ── Left meta ── */}
+                <div style={{ display: "flex", flexDirection: "column", gap: 10, paddingTop: 6 }}>
+
+                  {/* Period + duration */}
+                  <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                    <span style={{
+                      fontFamily: "'SF Mono','Fira Code',monospace",
+                      fontSize: 10, letterSpacing: "0.08em",
+                      color: "#6e6e73", tabularNums: true,
+                    } as React.CSSProperties}>
                       {item.period}
                     </span>
-                    <span
-                      className="text-[9px] text-[#bbb] border border-[#e8e8e8] px-1.5 py-0.5 uppercase tracking-wider"
-                      style={{ fontFamily: "'DM Mono', monospace" }}
-                    >
+                    <span style={{
+                      fontFamily: "'SF Mono','Fira Code',monospace",
+                      fontSize: 8.5, letterSpacing: "0.1em",
+                      textTransform: "uppercase",
+                      color: "#c7c7cc",
+                      border: "0.5px solid rgba(0,0,0,0.08)",
+                      padding: "2px 7px", borderRadius: 980,
+                    }}>
                       {item.duration}
                     </span>
                   </div>
 
-                  <span
-                    className="text-[10px] text-[#bbb] uppercase tracking-[0.1em]"
-                    style={{ fontFamily: "'DM Mono', monospace" }}
-                  >
+                  {/* Type */}
+                  <span style={{
+                    fontFamily: "'SF Mono','Fira Code',monospace",
+                    fontSize: 9, letterSpacing: "0.1em",
+                    textTransform: "uppercase", color: "#aeaeb2",
+                  }}>
                     {item.type}
                   </span>
 
+                  {/* Current badge */}
                   {item.current && (
-                    <span className="flex items-center gap-1.5 mt-1">
-                      <span className="relative flex h-2 w-2">
-                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                        <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400" />
+                    <div style={{ display: "flex", alignItems: "center", gap: 6, marginTop: 4 }}>
+                      <span style={{ position: "relative", display: "flex", width: 7, height: 7 }}>
+                        <span style={{
+                          position: "absolute", inset: 0,
+                          borderRadius: "50%", background: "#34c759",
+                          opacity: 0.4,
+                          animation: "ping 1.4s cubic-bezier(0,0,0.2,1) infinite",
+                        }} />
+                        <span style={{
+                          position: "relative", width: 7, height: 7,
+                          borderRadius: "50%", background: "#34c759",
+                          display: "inline-flex",
+                        }} />
                       </span>
-                      <span
-                        className="text-[10px] text-emerald-500 uppercase tracking-[0.15em]"
-                        style={{ fontFamily: "'DM Mono', monospace" }}
-                      >
+                      <span style={{
+                        fontFamily: "'SF Mono','Fira Code',monospace",
+                        fontSize: 9, letterSpacing: "0.14em",
+                        textTransform: "uppercase", color: "#34c759",
+                      }}>
                         Current
                       </span>
-                    </span>
+                    </div>
                   )}
                 </div>
 
-                {/* Right */}
+                {/* ── Right content ── */}
                 <div>
-                  <div className="flex items-baseline gap-3 mb-1 flex-wrap">
-                    <h3
-                      className="text-[1.75rem] text-[#111] leading-tight"
-                      style={{ fontFamily: "'DM Serif Display', serif" }}
-                    >
+                  {/* Company + customers */}
+                  <div style={{ display: "flex", alignItems: "baseline", gap: 12, marginBottom: 6, flexWrap: "wrap" }}>
+                    <h3 style={{
+                      fontFamily: "'Playfair Display', Georgia, serif",
+                      fontWeight: 300,
+                      fontSize: "clamp(28px, 3.5vw, 36px)",
+                      lineHeight: 1.08,
+                      color: "#1d1d1f",
+                      letterSpacing: "-0.02em",
+                    }}>
                       {item.company}
                     </h3>
                     {item.current && (
-                      <span
-                        className="text-[10px] text-[#aaa] uppercase tracking-widest hidden md:inline"
-                        style={{ fontFamily: "'DM Mono', monospace" }}
-                      >
-                        · 7 customers
+                      <span style={{
+                        fontFamily: "'SF Mono','Fira Code',monospace",
+                        fontSize: 9, letterSpacing: "0.12em",
+                        textTransform: "uppercase", color: "#aeaeb2",
+                      }}>
+                        · 7 clients
                       </span>
                     )}
                   </div>
 
-                  <p
-                    className="text-[11px] text-[#999] uppercase tracking-[0.15em] mb-5"
-                    style={{ fontFamily: "'DM Mono', monospace" }}
-                  >
+                  {/* Role */}
+                  <p style={{
+                    fontFamily: "'SF Mono','Fira Code',monospace",
+                    fontSize: 10, letterSpacing: "0.14em",
+                    textTransform: "uppercase", color: "#aeaeb2",
+                    marginBottom: 20,
+                  }}>
                     {item.role}
                   </p>
 
-                  <p
-                    className="text-[13px] text-[#666] leading-[1.8] mb-7 max-w-lg"
-                    style={{ fontFamily: "'DM Mono', monospace", fontWeight: 300 }}
-                  >
+                  {/* Description */}
+                  <p style={{
+                    fontSize: 14,
+                    lineHeight: 1.72,
+                    color: "#6e6e73",
+                    maxWidth: 480,
+                    marginBottom: 24,
+                    letterSpacing: "-0.01em",
+                    fontWeight: 400,
+                  }}>
                     {item.description}
                   </p>
 
-                  <div className="flex flex-wrap gap-2">
-                    {item.tags.map((tag: string) => (
+                  {/* Tags */}
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+                    {item.tags.map((tag) => (
                       <span
                         key={tag}
-                        className="tag-pill text-[10px] uppercase tracking-[0.1em] text-[#555] border border-[#e0e0e0] px-2.5 py-1 cursor-default"
-                        style={{ fontFamily: "'DM Mono', monospace" }}
+                        className="exp-tag"
+                        style={{
+                          fontFamily: "'SF Mono','Fira Code',monospace",
+                          fontSize: 9, letterSpacing: "0.09em",
+                          textTransform: "uppercase", color: "#6e6e73",
+                          padding: "5px 11px", borderRadius: 980,
+                          border: "0.5px solid rgba(0,0,0,0.08)",
+                          background: "rgba(255,255,255,0.55)",
+                          cursor: "default",
+                        }}
                       >
                         {tag}
                       </span>
                     ))}
                   </div>
                 </div>
-
               </div>
-
-              {index < experience.length - 1 && (
-                <div className="h-[1px] bg-[#ebebeb]" />
-              )}
             </div>
           ))}
+
+          {/* Bottom divider */}
+          <div style={{ height: "0.5px", background: "rgba(0,0,0,0.07)" }} />
         </div>
 
-        {/* Bottom total */}
-        <div className="mt-14 pt-6 border-t border-[#e8e8e8] flex justify-between items-center">
-          <p
-            className="text-[10px] text-[#ccc] uppercase tracking-[0.2em]"
-            style={{ fontFamily: "'DM Mono', monospace" }}
-          >
-            Total experience
-          </p>
-          <p
-            className="text-[10px] text-[#aaa] uppercase tracking-[0.2em]"
-            style={{ fontFamily: "'DM Mono', monospace" }}
-          >
-            2+ years · 2026 — Present
-          </p>
+        {/* ── Footer summary ── */}
+        <div
+          className="exp-item"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            marginTop: 40,
+            animationDelay: "0.4s",
+          }}
+        >
+          <span style={{
+            fontFamily: "'SF Mono','Fira Code',monospace",
+            fontSize: 9, letterSpacing: "0.16em",
+            textTransform: "uppercase", color: "#c7c7cc",
+          }}>
+            Total
+          </span>
+          <span style={{
+            fontFamily: "'SF Mono','Fira Code',monospace",
+            fontSize: 9, letterSpacing: "0.14em",
+            textTransform: "uppercase", color: "#aeaeb2",
+          }}>
+            2+ years · 2 roles
+          </span>
         </div>
 
       </section>
+
+      <style>{`
+        @keyframes ping {
+          75%, 100% { transform: scale(2); opacity: 0; }
+        }
+      `}</style>
     </>
   );
 }
