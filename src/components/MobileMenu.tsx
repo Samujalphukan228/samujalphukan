@@ -1,20 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, ReactNode } from "react";
+import { useEffect } from "react";
 import { FaGithub, FaXTwitter, FaInstagram } from "react-icons/fa6";
 
-interface SocialLink {
-  name: string;
-  href: string;
-  icon: ReactNode;
-}
-
-interface NavLink {
-  href: string;
-  label: string;
-}
-
+interface NavLink { href: string; label: string; }
 interface MobileMenuProps {
   isOpen: boolean;
   onClose: () => void;
@@ -22,171 +12,186 @@ interface MobileMenuProps {
   isActive: (href: string) => boolean;
 }
 
-const socialLinks: SocialLink[] = [
-  {
-    name: "GitHub",
-    href: "https://github.com/Samujalphukan228",
-    icon: <FaGithub className="w-4 h-4" />,
-  },
-  {
-    name: "Twitter",
-    href: "https://x.com/samujalphukan",
-    icon: <FaXTwitter className="w-4 h-4" />,
-  },
-  {
-    name: "Instagram",
-    href: "https://www.instagram.com/samujal_phukan/",
-    icon: <FaInstagram className="w-4 h-4" />,
-  },
+const socials = [
+  { name: "GitHub", href: "https://github.com/Samujalphukan228", icon: FaGithub },
+  { name: "Twitter", href: "https://x.com/samujalphukan", icon: FaXTwitter },
+  { name: "Instagram", href: "https://www.instagram.com/samujal_phukan/", icon: FaInstagram },
 ];
 
 export default function MobileMenu({ isOpen, onClose, navLinks, isActive }: MobileMenuProps) {
   useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "unset";
-    }
-    return () => {
-      document.body.style.overflow = "unset";
-    };
+    document.body.style.overflow = isOpen ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
   }, [isOpen]);
 
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,300;1,300&display=swap');
+        .mlink-item { color: #c7c7cc; transition: color 0.25s; }
+        .mlink-item:hover { color: #1d1d1f; }
+        .mlink-item::after {
+          content: ''; position: absolute; bottom: 2px; left: 0;
+          height: 0.5px; background: #1d1d1f; width: 0;
+          transition: width 0.4s cubic-bezier(0.4,0,0.2,1);
+        }
+        .mlink-item:hover::after { width: 100%; }
+        .mlink-arrow { opacity: 0; transform: translateX(-6px); transition: opacity 0.2s, transform 0.25s; }
+        .mlink-item:hover .mlink-arrow { opacity: 1; transform: translateX(0); }
+        .soc-link { color: #aeaeb2; transition: color 0.2s; }
+        .soc-link:hover { color: #1d1d1f; }
+        .close-circle { transition: background 0.2s; }
+        .close-circle:hover { background: rgba(0,0,0,0.1) !important; }
+        .menu-img-inner { transition: transform 0.6s ease, opacity 0.4s; opacity: 0.75; }
+        .sheet-open .menu-img-inner { transform: scale(1.03); }
       `}</style>
 
+      {/* Overlay */}
       <div
-        className={`fixed inset-0 z-50 transition-opacity duration-500
-          ${isOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}
-        `}
-        aria-label="Navigation menu"
+        style={{
+          position: "fixed", inset: 0, zIndex: 50,
+          pointerEvents: isOpen ? "auto" : "none",
+          opacity: isOpen ? 1 : 0,
+          transition: "opacity 0.4s cubic-bezier(0.4,0,0.2,1)",
+        }}
       >
-        <div className="absolute inset-0 bg-black/30" onClick={onClose} />
-
+        {/* Backdrop */}
         <div
-          className={`absolute inset-2 md:inset-4 bg-[#757272] shadow-2xl 
-            transform transition-all duration-500 ease-out overflow-hidden
-            ${isOpen ? "scale-100 opacity-100" : "scale-95 opacity-0"}
-          `}
-        >
-          <div className="h-full grid grid-cols-1 grid-rows-[35%_65%] md:grid-rows-1 md:grid-cols-2">
+          onClick={onClose}
+          style={{
+            position: "absolute", inset: 0,
+            background: "rgba(0,0,0,0.18)",
+            backdropFilter: "blur(2px)",
+            WebkitBackdropFilter: "blur(2px)",
+          }}
+        />
 
-            {/* Image Side */}
-            <div className="relative bg-[#111] order-first md:order-last overflow-hidden">
+        {/* Sheet */}
+        <div
+          className={isOpen ? "sheet-open" : ""}
+          style={{
+            position: "absolute", inset: 8,
+            display: "grid", gridTemplateColumns: "1fr 1fr",
+            overflow: "hidden", borderRadius: 16,
+            background: "#ffffff",
+            boxShadow: "0 32px 80px rgba(0,0,0,0.18), 0 0 0 0.5px rgba(0,0,0,0.06)",
+            transform: isOpen ? "scale(1) translateY(0)" : "scale(0.97) translateY(8px)",
+            opacity: isOpen ? 1 : 0,
+            transition: "transform 0.45s cubic-bezier(0.34,1.56,0.64,1), opacity 0.3s",
+          }}
+        >
+          {/* Nav side */}
+          <div style={{ display: "flex", flexDirection: "column", borderRight: "0.5px solid rgba(0,0,0,0.06)" }}>
+
+            {/* Top bar */}
+            <div style={{
+              padding: "20px 28px 16px",
+              borderBottom: "0.5px solid rgba(0,0,0,0.06)",
+              display: "flex", alignItems: "center", justifyContent: "space-between",
+            }}>
+              <span style={{ fontSize: 10, letterSpacing: "0.16em", textTransform: "uppercase", color: "#aeaeb2", fontWeight: 400 }}>
+                Menu
+              </span>
               <button
                 onClick={onClose}
-                className="absolute top-4 right-4 md:top-6 md:right-6 z-10 p-2 bg-white/10 backdrop-blur rounded-full
-                  text-[#6b6b6b] hover:bg-white/20 transition-all group"
-                aria-label="Close menu"
+                className="close-circle"
+                style={{
+                  width: 28, height: 28, borderRadius: "50%",
+                  background: "rgba(0,0,0,0.05)", border: "none", cursor: "pointer",
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                  color: "#6e6e73",
+                }}
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5 group-hover:rotate-90 transition-transform duration-300"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6 18L18 6M6 6l12 12" />
+                <svg width="11" height="11" viewBox="0 0 11 11" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round">
+                  <path d="M1 1l9 9M10 1L1 10" />
                 </svg>
               </button>
-
-              <div className="h-full w-full relative">
-                <img
-                  src="https://images.unsplash.com/photo-1618005198919-d3d4b5a92ead?w=1600&auto=format&fit=crop&q=80"
-                  alt="Menu"
-                  className="h-full w-full object-cover"
-                  loading="lazy"
-                />
-
-                <div className="absolute bottom-0 left-0 right-0 p-6 md:p-10">
-                  <p
-                    className="text-[#6b6b6b] text-[10px] uppercase tracking-[0.25em] mb-2"
-                    style={{ fontFamily: "'DM Mono', monospace" }}
-                  >
-                    Exxupp · Digital Agency
-                  </p>
-                  <h3
-                    className="text-[#111111]  text-2xl md:text-3xl leading-tight"
-                    style={{ fontFamily: "'DM Serif Display', serif", fontStyle: "italic" }}
-                  >
-                    Building systems<br />that scale.
-                  </h3>
-                </div>
-              </div>
             </div>
 
-            {/* Nav Side */}
-            <div className="h-full flex flex-col bg-[#f8f8f8] order-last md:order-first overflow-hidden">
-
-              {/* Header */}
-              <div className="px-6 md:px-10 py-5 md:py-8 border-b border-[#e8e8e8]">
-                <p
-                  className="text-[10px] text-[#6b6b6b] uppercase tracking-[0.25em]"
-                  style={{ fontFamily: "'DM Mono', monospace" }}
+            {/* Links */}
+            <nav style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center", padding: "20px 28px", gap: 2 }}>
+              {navLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  onClick={onClose}
+                  className="mlink-item"
+                  style={{
+                    display: "block", position: "relative",
+                    fontFamily: "'Playfair Display', Georgia, serif",
+                    fontWeight: 300,
+                    fontSize: "clamp(32px, 4.5vw, 44px)",
+                    lineHeight: 1.15,
+                    letterSpacing: "-0.01em",
+                    fontStyle: isActive(link.href) ? "italic" : "normal",
+                    color: isActive(link.href) ? "#1d1d1f" : undefined,
+                    textDecoration: "none",
+                    padding: "4px 0",
+                  }}
                 >
-                  Navigation
-                </p>
-              </div>
+                  {link.label}
+                  {" "}
+                  <span className="mlink-arrow" style={{ fontStyle: "normal", fontSize: 22 }}>↗</span>
+                </Link>
+              ))}
+            </nav>
 
-              {/* Links */}
-              <nav className="flex-1 flex flex-col justify-center px-6 md:px-10 lg:px-12">
-                <div className="space-y-0 md:space-y-1">
-                  {navLinks.map((link: NavLink, index: number) => (
-                    <Link
-                      key={link.href}
-                      href={link.href}
-                      onClick={onClose}
-                      className={`block py-2 md:py-3 text-3xl md:text-4xl lg:text-5xl
-                        font-light tracking-wide transition-all duration-300 group
-                        ${isActive(link.href) ? "text-[#111]" : "text-[#aaa] hover:text-[#111] hover:translate-x-2"}
-                      `}
-                      style={{ fontFamily: "'DM Serif Display', serif", animationDelay: `${index * 100}ms` }}
-                    >
-                      <span className="relative inline-block">
-                        {isActive(link.href) ? <em>{link.label}</em> : link.label}
-                        <span
-                          className={`absolute -bottom-1 left-0 w-full h-[1px] bg-[#111]
-                            transform origin-left transition-transform duration-300
-                            ${isActive(link.href) ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}
-                          `}
-                        />
-                      </span>
-                    </Link>
-                  ))}
-                </div>
-              </nav>
-
-              {/* Footer */}
-              <div className="px-6 md:px-10 py-5 md:py-8 border-t border-[#e8e8e8]">
-                <div className="flex flex-row justify-between items-center">
-                  <div className="flex gap-4 items-center">
-                    {socialLinks.map((social: SocialLink) => (
-                      <a
-                        key={social.name}
-                        href={social.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#aaa] hover:text-[#111] transition-colors duration-200"
-                        aria-label={social.name}
-                      >
-                        {social.icon}
-                      </a>
-                    ))}
-                  </div>
-
+            {/* Footer */}
+            <div style={{
+              padding: "16px 28px",
+              borderTop: "0.5px solid rgba(0,0,0,0.06)",
+              display: "flex", alignItems: "center", justifyContent: "space-between",
+            }}>
+              <div style={{ display: "flex", gap: 20 }}>
+                {socials.map(({ name, href, icon: Icon }) => (
                   <a
-                    href="mailto:samujalphukan@yahoo.com"
-                    className="text-[10px] text-[#aaa] hover:text-[#111] transition-colors uppercase tracking-[0.2em]"
-                    style={{ fontFamily: "'DM Mono', monospace" }}
+                    key={name}
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="soc-link"
+                    style={{ fontSize: 11, letterSpacing: "0.04em", textDecoration: "none", fontWeight: 400 }}
+                    aria-label={name}
                   >
-                    Mail
+                    <Icon size={14} />
                   </a>
-                </div>
+                ))}
               </div>
+              <a
+                href="mailto:samujalphukan@yahoo.com"
+                className="soc-link"
+                style={{ fontSize: 11, letterSpacing: "0.04em", textDecoration: "none", fontWeight: 400 }}
+              >
+                Mail
+              </a>
+            </div>
+          </div>
 
+          {/* Image side */}
+          <div style={{ position: "relative", background: "#1d1d1f", overflow: "hidden" }}>
+            <img
+              src="https://images.unsplash.com/photo-1618005198919-d3d4b5a92ead?w=1200&auto=format&fit=crop&q=80"
+              alt=""
+              className="menu-img-inner"
+              style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+              loading="lazy"
+            />
+            <div style={{
+              position: "absolute", bottom: 0, left: 0, right: 0,
+              padding: "28px 28px 24px",
+              background: "linear-gradient(transparent, rgba(0,0,0,0.55))",
+            }}>
+              <p style={{ fontSize: 9, letterSpacing: "0.22em", textTransform: "uppercase", color: "rgba(255,255,255,0.4)", marginBottom: 10, fontWeight: 400 }}>
+                Exxupp · Digital
+              </p>
+              <p style={{
+                fontFamily: "'Playfair Display', Georgia, serif",
+                fontWeight: 300, fontStyle: "italic",
+                fontSize: "clamp(18px, 2.5vw, 22px)",
+                lineHeight: 1.3, color: "rgba(255,255,255,0.88)", letterSpacing: "0.01em",
+              }}>
+                Building systems<br />that scale.
+              </p>
             </div>
           </div>
         </div>

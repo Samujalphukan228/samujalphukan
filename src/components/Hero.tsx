@@ -1,114 +1,160 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import Link from "next/link";
+
+const stack = ["Rust", "Tokio", "PostgreSQL", "LLM Agents", "Docker", "AWS", "Design"];
 
 export default function Hero() {
-  const lineRef = useRef<HTMLDivElement | null>(null);
+  const dividerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const el: HTMLDivElement | null = lineRef.current;
+    const el = dividerRef.current;
     if (!el) return;
     el.style.transform = "scaleX(0)";
     el.style.transformOrigin = "left";
-    el.style.transition = "transform 1s cubic-bezier(0.16, 1, 0.3, 1) 0.6s";
-    requestAnimationFrame(() => {
+    requestAnimationFrame(() =>
       requestAnimationFrame(() => {
+        el.style.transition = "transform 1s cubic-bezier(0.16,1,0.3,1) 0.4s";
         el.style.transform = "scaleX(1)";
-      });
-    });
+      })
+    );
   }, []);
-
-  const stack: string[] = ["Node.js", "PostgreSQL", "Redis", "Docker", "Rust", "AWS"];
 
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,300;0,400;1,300;1,400&display=swap');
 
-        .hero-line {
+        .hero-up {
           opacity: 0;
-          transform: translateY(20px);
-          animation: lineUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+          transform: translateY(16px);
+          animation: heroUp 0.7s cubic-bezier(0.16,1,0.3,1) forwards;
         }
+        @keyframes heroUp { to { opacity:1; transform:translateY(0); } }
 
-        @keyframes lineUp {
-          to { opacity: 1; transform: translateY(0); }
-        }
+        .hero-tag { transition: background 0.2s, color 0.2s, border-color 0.2s; }
+        .hero-tag:hover { background: #1d1d1f !important; color: #fff !important; border-color: transparent !important; }
 
-        .stack-tag:hover {
-          background: #111;
-          color: #f8f8f8;
-        }
+        .hero-lnk { transition: color 0.2s, border-color 0.2s; }
+        .hero-lnk:hover { color: #aeaeb2 !important; border-color: #aeaeb2 !important; }
 
-        .blink {
-          animation: blink 1.2s step-end infinite;
-        }
+        @keyframes heroBlink { 0%,100%{opacity:1;} 50%{opacity:0;} }
+        .hero-blink { animation: heroBlink 1.1s step-end infinite; }
 
-        @keyframes blink {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0; }
-        }
-
-        .rotate-text {
-          animation: spinSlow 20s linear infinite;
-        }
-
-        @keyframes spinSlow {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
-        }
+        @keyframes heroSpin { from{transform:rotate(0);} to{transform:rotate(360deg);} }
+        .hero-spin { animation: heroSpin 20s linear infinite; }
       `}</style>
 
-      <section className="min-h-[88vh] flex flex-col justify-center py-8">
-        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-16">
-
-          {/* Left — main content */}
-          <div className="max-w-xl">
-
-            {/* Mono label */}
-            <p
-              className="hero-line text-[11px] text-[#999] uppercase tracking-[0.2em] mb-8 flex items-center gap-2"
-              style={{ fontFamily: "'DM Mono', monospace", animationDelay: "0.1s" }}
-            >
-              <span className="inline-block w-1.5 h-1.5 rounded-full bg-emerald-400" />
-              Available for work — Backend Engineer
-            </p>
+      <section style={{ minHeight: "88vh", display: "flex", alignItems: "center", padding: "48px 0" }}>
+        <div
+          style={{
+            width: "100%",
+            display: "grid",
+            gridTemplateColumns: "1fr 280px",
+            gap: 72,
+            alignItems: "center",
+          }}
+        >
+          {/* ── LEFT ── */}
+          <div>
+            {/* Status + role chips */}
+            <div className="hero-up" style={{ animationDelay: "0.05s", marginBottom: 24 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 12 }}>
+                <span style={{
+                  width: 6, height: 6, borderRadius: "50%", flexShrink: 0,
+                  background: "#ff9f0a", boxShadow: "0 0 0 3px rgba(255,159,10,0.15)",
+                }} />
+                <span style={{
+                  fontFamily: "var(--font-mono,'SF Mono','Fira Code',monospace)",
+                  fontSize: 10, letterSpacing: "0.14em", textTransform: "uppercase", color: "#aeaeb2",
+                }}>
+                  Building · Not available for hire
+                </span>
+              </div>
+              <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+                {[
+                  { label: "Rust", color: "#ce4a2c", bg: "rgba(206,74,44,0.06)", border: "rgba(206,74,44,0.25)" },
+                  { label: "Agentic AI", color: "#007aff", bg: "rgba(0,122,255,0.05)", border: "rgba(0,122,255,0.2)" },
+                  { label: "Design Systems", color: "#5856d6", bg: "rgba(88,86,214,0.05)", border: "rgba(88,86,214,0.2)" },
+                  { label: "Backend", color: "#6e6e73", bg: "rgba(255,255,255,0.5)", border: "rgba(0,0,0,0.08)" },
+                ].map(({ label, color, bg, border }) => (
+                  <span
+                    key={label}
+                    style={{
+                      fontFamily: "var(--font-mono,'SF Mono','Fira Code',monospace)",
+                      fontSize: 9, letterSpacing: "0.1em", textTransform: "uppercase",
+                      padding: "3px 9px", borderRadius: 980,
+                      border: `0.5px solid ${border}`,
+                      color, background: bg,
+                    }}
+                  >
+                    {label}
+                  </span>
+                ))}
+              </div>
+            </div>
 
             {/* Name */}
             <h1
-              className="hero-line text-5xl md:text-6xl text-[#111] leading-tight mb-2"
-              style={{ fontFamily: "'DM Serif Display', serif", animationDelay: "0.25s" }}
+              className="hero-up"
+              style={{
+                fontFamily: "'Playfair Display', Georgia, serif",
+                fontWeight: 300, fontSize: "clamp(46px,6.5vw,70px)",
+                lineHeight: 1.05, color: "#1d1d1f", letterSpacing: "-0.02em",
+                animationDelay: "0.15s",
+              }}
             >
               Samujal
             </h1>
             <h1
-              className="hero-line text-5xl md:text-6xl text-[#111] leading-tight mb-8"
-              style={{ fontFamily: "'DM Serif Display', serif", fontStyle: "italic", animationDelay: "0.35s" }}
+              className="hero-up"
+              style={{
+                fontFamily: "'Playfair Display', Georgia, serif",
+                fontWeight: 300, fontStyle: "italic",
+                fontSize: "clamp(46px,6.5vw,70px)",
+                lineHeight: 1.05, color: "#1d1d1f", letterSpacing: "-0.02em",
+                animationDelay: "0.25s",
+              }}
             >
               Phukan.
             </h1>
 
             {/* Divider */}
-            <div className="h-[1px] bg-[#ddd] mb-8" ref={lineRef} />
+            <div ref={dividerRef} style={{ height: "0.5px", background: "rgba(0,0,0,0.08)", margin: "26px 0" }} />
 
             {/* Bio */}
             <p
-              className="hero-line text-sm text-[#666] leading-relaxed max-w-md mb-10"
-              style={{ fontFamily: "'DM Mono', monospace", fontWeight: 300, animationDelay: "0.9s" }}
+              className="hero-up"
+              style={{
+                fontSize: 14.5, lineHeight: 1.7, color: "#6e6e73",
+                maxWidth: 420, marginBottom: 28, letterSpacing: "-0.01em",
+                animationDelay: "0.5s",
+              }}
             >
-              I build reliable, scalable systems — APIs, databases, and the infrastructure that keeps things running quietly in the background.
+              I write{" "}
+              <strong style={{ color: "#1d1d1f", fontWeight: 500 }}>Rust</strong>
+              {" "}for systems that demand reliability, craft{" "}
+              <strong style={{ color: "#1d1d1f", fontWeight: 500 }}>agentic AI</strong>
+              {" "}pipelines that think and act autonomously, and bring a designer{"'"}s eye to everything I build.
             </p>
 
             {/* Stack tags */}
             <div
-              className="hero-line flex flex-wrap gap-2 mb-10"
-              style={{ animationDelay: "1s" }}
+              className="hero-up"
+              style={{ display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 32, animationDelay: "0.64s" }}
             >
-              {stack.map((item: string) => (
+              {stack.map((item) => (
                 <span
                   key={item}
-                  className="stack-tag text-[10px] uppercase tracking-[0.15em] text-[#555] border border-[#ddd] px-3 py-1.5 transition-colors duration-200 cursor-default"
-                  style={{ fontFamily: "'DM Mono', monospace" }}
+                  className="hero-tag"
+                  style={{
+                    fontFamily: "var(--font-mono,'SF Mono','Fira Code',monospace)",
+                    fontSize: 9.5, letterSpacing: "0.1em", textTransform: "uppercase",
+                    color: "#6e6e73", padding: "5px 11px", borderRadius: 980,
+                    border: "0.5px solid rgba(0,0,0,0.08)",
+                    background: "rgba(255,255,255,0.6)", cursor: "default",
+                  }}
                 >
                   {item}
                 </span>
@@ -116,78 +162,140 @@ export default function Hero() {
             </div>
 
             {/* Links */}
-            <div
-              className="hero-line flex gap-6"
-              style={{ animationDelay: "1.1s" }}
-            >
-              <a
-                href="/work"
-                className="text-[11px] uppercase tracking-[0.2em] text-[#111] border-b border-[#111] pb-0.5 hover:text-[#888] hover:border-[#888] transition-colors duration-200"
-                style={{ fontFamily: "'DM Mono', monospace" }}
-              >
-                Projects
-              </a>
-              <a
-                href="mailto:samujalphukan@yahoo.com"
-                className="text-[11px] uppercase tracking-[0.2em] text-[#111] border-b border-[#111] pb-0.5 hover:text-[#888] hover:border-[#888] transition-colors duration-200"
-                style={{ fontFamily: "'DM Mono', monospace" }}
-              >
-                Contact
-              </a>
+            <div className="hero-up" style={{ display: "flex", gap: 20, animationDelay: "0.76s" }}>
+              {[
+                { label: "Work", href: "/work" },
+                { label: "Contact", href: "mailto:samujalphukan@yahoo.com" },
+              ].map(({ label, href }) => (
+                <Link
+                  key={label}
+                  href={href}
+                  className="hero-lnk"
+                  style={{
+                    fontFamily: "var(--font-mono,'SF Mono','Fira Code',monospace)",
+                    fontSize: 10.5, letterSpacing: "0.12em", textTransform: "uppercase",
+                    color: "#1d1d1f", textDecoration: "none",
+                    display: "flex", alignItems: "center", gap: 5,
+                    paddingBottom: 2, borderBottom: "0.5px solid #1d1d1f",
+                  }}
+                >
+                  {label}
+                  <svg
+                    width="10"
+                    height="10"
+                    viewBox="0 0 11 11"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.3"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="M1 10L10 1M4 1h6v6" />
+                  </svg>
+                </Link>
+              ))}
             </div>
           </div>
 
-          {/* Right — decorative code block + rotating badge */}
+          {/* ── RIGHT ── */}
           <div
-            className="hero-line hidden lg:flex flex-col items-end gap-8 shrink-0"
-            style={{ animationDelay: "1.2s" }}
+            className="hero-up"
+            style={{
+              display: "flex", flexDirection: "column",
+              alignItems: "flex-end", gap: 28,
+              animationDelay: "0.3s",
+            }}
           >
-            {/* Rotating circular badge */}
-            <div className="relative w-28 h-28 flex items-center justify-center self-end">
-              <svg viewBox="0 0 120 120" className="absolute inset-0 w-full h-full rotate-text">
-                <path
-                  id="circle"
-                  d="M 60,60 m -45,0 a 45,45 0 1,1 90,0 a 45,45 0 1,1 -90,0"
-                  fill="none"
-                />
-                <text style={{ fontFamily: "'DM Mono', monospace", fontSize: "11px", fill: "#aaa", letterSpacing: "3px" }}>
-                  <textPath href="#circle">
-                    BACKEND · SYSTEMS · INFRA · APIs ·&nbsp;
-                  </textPath>
+            {/* Rotating badge */}
+            <div style={{ position: "relative", width: 104, height: 104, display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <svg viewBox="0 0 120 120" className="hero-spin" style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}>
+                <path id="hero-arc" d="M60,60 m-44,0 a44,44 0 1,1 88,0 a44,44 0 1,1 -88,0" fill="none" />
+                <text style={{ fontFamily: "monospace", fontSize: "10px", fill: "#aeaeb2", letterSpacing: "3px" }}>
+                  <textPath href="#hero-arc">RUST · AI · DESIGN · SYSTEMS ·&nbsp;</textPath>
                 </text>
               </svg>
-              <span style={{ fontFamily: "'DM Serif Display', serif", fontSize: "22px", color: "#111" }}>{ }</span>
-              <span style={{ fontFamily: "'DM Mono', monospace", fontSize: "20px", color: "#111" }}>{"{}"}</span>
+              <span style={{ fontFamily: "monospace", fontSize: 18, color: "#1d1d1f", zIndex: 1 }}>{"{}"}</span>
             </div>
 
-            {/* Faux terminal block */}
-            <div
-              className="border border-[#e0e0e0] p-6 w-72"
-              style={{ fontFamily: "'DM Mono', monospace" }}
-            >
-              <div className="flex gap-1.5 mb-4">
-                <span className="w-2.5 h-2.5 rounded-full bg-[#eee]" />
-                <span className="w-2.5 h-2.5 rounded-full bg-[#eee]" />
-                <span className="w-2.5 h-2.5 rounded-full bg-[#eee]" />
+            {/* Terminal */}
+            <div style={{
+              width: "100%",
+              background: "rgba(255,255,255,0.75)",
+              border: "0.5px solid rgba(0,0,0,0.08)",
+              borderRadius: 13, overflow: "hidden",
+              backdropFilter: "blur(16px)",
+              WebkitBackdropFilter: "blur(16px)",
+            }}>
+              <div style={{
+                padding: "11px 13px 9px",
+                borderBottom: "0.5px solid rgba(0,0,0,0.06)",
+                display: "flex", gap: 5, alignItems: "center",
+              }}>
+                {["#ff5f57", "#ffbd2e", "#28c840"].map((c) => (
+                  <div key={c} style={{ width: 9, height: 9, borderRadius: "50%", background: c }} />
+                ))}
               </div>
-              <div className="space-y-2 text-[11px]">
-                <p className="text-[#aaa]"><span className="text-emerald-500">→</span> whoami</p>
-                <p className="text-[#555]">samujal_phukan</p>
-                <p className="text-[#aaa] mt-3"><span className="text-emerald-500">→</span> cat skills.txt</p>
-                <p className="text-[#555]">Node · Go · PostgreSQL</p>
-                <p className="text-[#555]">Redis · Docker · AWS</p>
-                <p className="text-[#aaa] mt-3"><span className="text-emerald-500">→</span> status</p>
-                <p className="text-[#555]">
-                  open_to_work: <span className="text-emerald-500">true</span>
-                </p>
-                <p className="text-[#aaa] mt-3">
-                  <span className="text-emerald-500">→</span>
-                  <span className="blink ml-1">▌</span>
-                </p>
+              <div style={{
+                padding: "14px 15px 17px",
+                fontFamily: "var(--font-mono,'SF Mono','Fira Code',monospace)",
+                fontSize: 10.5, lineHeight: 1.85,
+              }}>
+                {[
+                  { cmd: "whoami", output: ["samujal_phukan"] },
+                  { cmd: "stack", output: ["Rust · Tokio · Axum", "LLM Agents · RAG · MCP"] },
+                ].map(({ cmd, output }) => (
+                  <div key={cmd}>
+                    <div><span style={{ color: "#34c759" }}>→</span> <span style={{ color: "#aeaeb2" }}>{cmd}</span></div>
+                    {output.map((line) => <div key={line} style={{ color: "#1d1d1f" }}>{line}</div>)}
+                    <div style={{ marginTop: 8 }} />
+                  </div>
+                ))}
+                <div><span style={{ color: "#34c759" }}>→</span> <span style={{ color: "#aeaeb2" }}>focus</span></div>
+                <div><span style={{ color: "#007aff" }}>agentic_ai</span>{": "}<span style={{ color: "#34c759" }}>active</span></div>
+                <div style={{ color: "#1d1d1f" }}>systems{": "}<span style={{ color: "#34c759" }}>always</span></div>
+                <div style={{ marginTop: 8 }}>
+                  <span style={{ color: "#34c759" }}>→</span>{" "}
+                  <span className="hero-blink" style={{ color: "#1d1d1f" }}>▌</span>
+                </div>
               </div>
+            </div>
+
+            {/* Proficiency bars */}
+            <div style={{
+              width: "100%", padding: "14px 16px",
+              background: "rgba(255,255,255,0.65)",
+              border: "0.5px solid rgba(0,0,0,0.08)",
+              borderRadius: 12,
+              backdropFilter: "blur(12px)",
+              WebkitBackdropFilter: "blur(12px)",
+            }}>
+              <div style={{
+                fontFamily: "var(--font-mono,'SF Mono','Fira Code',monospace)",
+                fontSize: 8.5, letterSpacing: "0.16em", textTransform: "uppercase",
+                color: "#aeaeb2", marginBottom: 10,
+              }}>
+                Proficiency
+              </div>
+              {[
+                { label: "Rust", pct: 92, color: "#ce4a2c" },
+                { label: "AI / LLMs", pct: 85, color: "#007aff" },
+                { label: "Design", pct: 78, color: "#5856d6" },
+                { label: "Backend", pct: 90, color: "#34c759" },
+              ].map(({ label, pct, color }) => (
+                <div key={label} style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 7 }}>
+                  <span style={{
+                    fontFamily: "var(--font-mono,'SF Mono','Fira Code',monospace)",
+                    fontSize: 9.5, color: "#6e6e73", width: 60, flexShrink: 0, letterSpacing: "0.04em",
+                  }}>
+                    {label}
+                  </span>
+                  <div style={{ flex: 1, height: 2, background: "rgba(0,0,0,0.06)", borderRadius: 2, overflow: "hidden" }}>
+                    <div style={{ width: `${pct}%`, height: "100%", background: color, borderRadius: 2 }} />
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
-
         </div>
       </section>
     </>
